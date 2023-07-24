@@ -1,0 +1,57 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+int reverse(int *a,int count);
+void swap(int *a, int *b);
+
+int main(void)
+{
+	int *arr;
+	int count;
+	int i;
+
+	printf("수의 갯수를 입력하세요:");
+	scanf("%d", &count);
+	
+	arr = calloc(count, sizeof(int));
+
+	for (i = 0; i < count; i++)
+	{
+		printf("%d번째 숫자:",i + 1);
+		scanf("%d", &arr[i]);
+	}
+
+	reverse(arr, count);
+
+	return 0;
+
+}
+
+int reverse(int *a,int count)
+{
+	int i,j;
+	int temp;
+	for (i = 0; i < count / 2; i++)
+	{
+		printf("※  %d 와 %d번째수 교환  ※\n\n", i + 1, count - i);
+		swap(&a[i], &a[count - i - 1]);
+		
+		printf("▷");
+		for (j = 0; j < count; j++)
+	    {
+			printf("%2d", a[j]);
+	    }
+		printf("\n\n");
+	}
+}
+
+void swap(int *a, int *b)
+{
+	int temp;
+
+	temp = *a;
+	*a = *b;
+	*b = temp;
+
+	return;
+}

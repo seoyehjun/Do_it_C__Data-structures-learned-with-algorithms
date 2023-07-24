@@ -1,0 +1,86 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+void triangleLB(int n);
+void triangleLU(int n);
+void triangleRB(int n);
+void triangleRU(int n);
+
+int main(void)
+{
+	int len;
+
+	printf("이등변 삼각형의 길이를 입력하세요: ");
+	scanf("%d", &len);
+
+	triangleLU(len);
+	triangleLB(len);
+	triangleRB(len);
+	triangleRU(len);
+
+	return 0;
+}
+
+
+void triangleLB(int n)
+{
+	int i, j;
+	
+	for (i = 0; i < n; i++)
+	{
+		for (j = 0; j < i + 1; j++)
+		{
+			printf("□");
+		}
+		printf("\n");
+	}
+}
+
+void triangleLU(int n)
+{
+	int i, j;
+	for (i = 0; i < n; i++)
+	{
+		for (j = 0; j < n - i; j++)
+		{
+			printf("□");
+		}
+		printf("\n");
+	}
+}
+
+void triangleRB(int n)
+{
+	int i, j;
+
+	for (i = 0; i < n; i++)
+	{
+		for(j=0;j<2*(n-i)-2;j++)
+		{
+			printf(" ");
+		}
+		for (j = 0; j < i + 1; j++)
+		{
+			printf("□");
+		}
+		printf("\n");
+	}
+}
+
+void triangleRU(int n)
+{
+	int i, j;
+	
+	for (i = 0; i < n; i++)
+	{
+		for (j = 0; j < 2*i; j++)
+		{
+			printf(" ");
+		}
+		for (j = 0; j < n - i; j++)
+		{
+			printf("□");
+		}
+		printf("\n");
+	}
+}

@@ -1,0 +1,40 @@
+#include<stdio.h>
+
+int mdays[][12] = { {31,28,31,30,31,30,31,31,30,31,30,31},{31,29,31,30,31,30,31,31,30,31,30,31} };//mdays[0]은 평년 mdays[1]은 윤년 (true 값이오면 윤년이오게 설계)
+
+int main(void)
+{
+	int year, month, day;
+	int retry;
+	int totdays;
+
+	do
+	{
+		printf("년 : ");
+		scanf("%d", &year);
+		printf("월 : ");
+		scanf("%d", &month);
+		printf("일 :");
+		scanf("%d", &day);
+
+		totdays = day;
+
+		for (int i = 0; i < month-1; i++)// 달수만큼 반복
+		{
+			totdays += mdays[isleep(year)][i];// (달) * (해당달의 일수)
+		}
+
+		printf("\n\n  □ %d년의 %d일째입니다. □\n\n", year, totdays);
+		printf("다시 할까요?(1...예/0...아니요) :");
+		scanf("%d", &retry);
+
+	} while (retry == 1);
+
+	return 0;
+}
+
+
+int isleep(int year)
+{
+	return year % 4 == 0 && year % 100 != 0 || year % 400 == 0;
+}

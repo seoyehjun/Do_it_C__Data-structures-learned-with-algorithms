@@ -1,0 +1,44 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#define swap(type,s1,s2) do{type t=s1;s1=s2;s2=t;}while(0)
+char *str_chr(const char *s, int c);
+
+int main(void)
+{
+	char str[64];
+	char tmp;
+	
+	int ch;
+	int idx;
+
+	printf("문자열 : ");
+	scanf("%s", str);
+
+	getchar();
+
+	printf("검색할 문자 : ");
+	scanf("%c", &tmp);
+
+
+	if (str_chr(str,tmp) != -1)
+	{
+		printf("찾는 문자는 str[%d]에 있습니다.", str_chr(str, tmp) - str);// 주소끼리의 연산은 크기를 고려한다(나누기sizeof(char *))
+	}
+
+	return 0;
+}
+
+char *str_chr(const char *s, int c)
+{
+	int i=0;
+	int temp=0;
+	char *find_index ;
+	while(*s++)
+	{
+		if (s[i] == c) find_index = &s[i];
+		temp++;
+	}
+	if (temp == 0) return NULL;
+	else return find_index;
+}

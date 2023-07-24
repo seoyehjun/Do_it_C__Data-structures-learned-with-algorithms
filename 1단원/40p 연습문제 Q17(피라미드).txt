@@ -1,0 +1,56 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+int main(void)
+{
+	int i, j, floor;
+
+	printf("n단의 피라미드를 만듭니다 몇단으로 만들건지 입력해주세요:");
+	scanf("%d", &floor);
+
+	for (i = 0; i < floor; i++)
+	{
+		for (j = floor*2; j > i; j--)
+		{
+			printf(" ");
+		}
+		for (j = 0; j < i; j++)
+		{
+			printf("☆");
+		}
+		printf("\n");
+	}
+}
+
+
+
+
+
+
+
+
+
+/*다른버전*/
+#include<stdio.h>
+#include<stdlib.h>
+
+int main(void)
+{
+	int i, j, floor;
+
+	printf("n단의 피라미드를 만듭니다 몇단으로 만들건지 입력해주세요:");
+	scanf("%d", &floor);
+
+	for (i = 0; i < floor; i++)
+	{
+		for (j = 0; j<floor-i ; j++)// 이부분이 다른버전
+		{
+			printf(" ");
+		}
+		for (j = 0; j < i; j++)
+		{
+			printf("☆");
+		}
+		printf("\n");
+	}
+}

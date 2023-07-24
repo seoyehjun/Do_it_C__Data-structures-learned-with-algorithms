@@ -1,0 +1,46 @@
+include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+
+#define swap(type,x,y) do {type t=x;x=y;y=t;}while(0)
+
+/*---a[left] ~ a[right]를 힙으로 만드는 함수---*/
+static void downheap(int *a, int left, int right)
+{
+	int temp = a[left];/* 루트(꼭대깃값) */// 점점 내려감
+	int child;
+	int parent;
+
+	for (parent = left; parent < (right + 1) / 2; parent = child)
+	{
+		int cl = parent * 2 + 1;// 왼쪽자식
+		int cr = cl + 1;//오른쪽 ㅈㅈ
+		
+		/*---큰자식 선택---*/
+		child = (cr <= right && a[cr] > a[cl]) ? cr : cl;// 왼쪽자식으로 끝나는 경우에 cr <= right 만족못하는 경우 생긴다
+		
+		if (temp >= a[child]) { break; }// 힙의조건 --> 부모가 자식이랑 같거나 크다.break되면 parent=child식 실행안됨-----case 2
+		a[parent] = a[child];// 큰자식으로 값수정// --------------------case 1
+	}// 나갈때 parent값은 큰자식값으로 다운--case 1
+	a[parent] = temp;// 본래 꼭대깃값 자식자리로(큰자식)// break되서 온다면 올래잇던자리에 그대로 대입// -------------------case 2
+}
+
+void heapsort(int *a, int n)
+{
+	int i;
+
+	for (i = (n - 1) / 2; i >= 0; i--)
+	{
+		downheap(a, i, n - 1);
+	}
+	for (i = n - 1; i > 0; i--)
+	{
+		swap(int, a[0], a[i]);
+		downheap(a, 0, i - 1);
+	}
+}
+
+int main(void)
+{
+
+}

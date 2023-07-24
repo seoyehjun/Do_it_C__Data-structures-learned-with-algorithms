@@ -1,0 +1,36 @@
+char *str_str(const char *s1, const char *s2)
+{
+	int pt, pp;
+	int skip[UCHAR_MAX + 1];
+	int i;
+	int txt_len = strlen(s1);// s1은 텍스트
+	int pat_len = strlen(s2);// s2은 패턴
+
+	for (i = 0; i < UCHAR_MAX; i++)
+	{
+		skip[i] = pat_len;
+	}
+	for (i = 0; i < pat_len - 1; i++)
+	{
+		skip[s2[i]] = pat_len - (i + 1);// 문자를(아스키코드)를 인덱스로 사용하쥬?
+	}
+
+	pt = pat_len - 1;// 패턴의 맨마지막 인덱스 가르킴
+	pp = pat_len - 1;// 패턴의 맨마지막 인덱스 가르킴
+
+	while (pt <= txt_len)
+	{
+		pp = pat_len - 1;
+		while (s1[pt] == s2[pp])// 첫번째 인덱스인상황pp=0을가르킴
+		{
+			if (pp == 0)return &s1[pt];//pt도 처음인상황// 줄어들다 그 첫번째 주소를 반환하는 형식
+
+			pp--;
+			pt--;
+		}
+
+		pt += skip[s1[pt]];
+	}
+
+	return NULL;
+}

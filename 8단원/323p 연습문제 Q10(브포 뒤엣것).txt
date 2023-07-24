@@ -1,0 +1,58 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#define swap(type,s1,s2) do{type t=s1;s1=s2;s2=t;}while(0)
+
+int bf_matchr(const char *txt, const char *pat);
+int main(void)
+{
+	int idx;
+	char s1[256];
+	char s2[256];
+	
+	puts("브로두-포스법");
+	
+	printf("텍스트 : ");
+	scanf("%s", s1);
+	
+	printf("패턴 : ");
+	scanf("%s", s2);
+	
+	idx = bf_matchr(s1, s2);
+	
+	if (idx == -1)
+	{
+		puts("텍스트에 패턴이 없습니다.");
+	}
+	else
+	{
+		printf("§   %d번째 문자부터 match합니다.   §\n", idx + 1);
+	}
+
+	return 0;
+}
+
+int bf_matchr(const char *txt, const char *pat)
+{
+	int pt = 0;
+	int pp = 0;
+	int that_index = -1;
+
+	
+	while (txt[pt])// 두번째 조건은 해당문자열을 못찾앗을때(NULL이 아닐때)
+	{
+		if (txt[pt] == pat[pp])// pp=3 이면 null
+		{
+			pt++;
+			pp++;
+		}
+		else
+		{
+			pt = pt - pp + 1;// 일때까지 갓던위치 다없애고 검사위치 하나뒤로
+			pp = 0;
+		}
+		if (pat[pp] == 0)that_index = pt-pp;// 문자열을 찾았으면 
+	}
+	return that_index;
+	
+}

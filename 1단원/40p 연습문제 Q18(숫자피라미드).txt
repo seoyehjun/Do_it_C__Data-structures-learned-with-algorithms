@@ -1,0 +1,36 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+void nrpira(int floor);
+
+int main(void)
+{
+	int floor;
+
+	printf("피라미드를 몇층으로 쌓을것인지 입력하세요");
+	scanf("%d", &floor);
+
+	nrpira(floor);
+
+	return 0;
+}
+
+void nrpira(int floor)
+{
+	int i,j;
+
+	for (i = 1; i <= floor; i++)
+	{
+		for (j = 0; j < i; j++)
+		{
+			printf(" ");
+		}
+
+		for (j = 0; j < (floor * 2) - 2 * (i - 1)-1; j++)
+		{
+			printf("%d", i);
+		}
+
+		printf("\n");
+	}
+}

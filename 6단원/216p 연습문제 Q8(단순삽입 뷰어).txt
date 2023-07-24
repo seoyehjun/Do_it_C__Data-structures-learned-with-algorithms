@@ -1,0 +1,73 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+void insert_array(int *a, int count);
+
+int main(void)
+{
+	int nx;
+	int *x;
+
+	printf("쓰고싶은 요소의 갯수를 입력하세요: ");
+	scanf("%d", &nx);
+
+	x = calloc(nx, sizeof(int));
+
+    for (int i = 0; i < nx; i++)
+	{
+		printf("a[%d] : ",i);
+		scanf("%d", &x[i]);
+	}
+
+	insert_array(x, nx);
+	for (int i = 0; i < nx; i++)
+	{
+		printf("%d", x[i]);
+	}
+	if (check(x, nx) == 1)
+		printf("# 배열이 오름차순으로 정렬됬습니다.");
+	else
+		printf("# 배열이 오름차순으로 정렬되지않았습니다.");
+}
+
+void insert_array(int *a, int count)
+{
+	int j; 
+	int i;
+	for (i = 1; i < count; i++)//마지막 요소까지 검사
+	{
+		int temp = a[i];
+		for (int q = 0; q < count; q++)
+		{
+			printf("%4d", a[q]);
+		}
+		printf("\n");
+		for ( j= i; j > 0 && temp < a[j - 1]; j--)// 유사버블 시행
+		{
+			a[j] = a[j - 1];
+		}
+		a[j] = temp;
+		printf("  ");
+		for (int q = 0; q < j*4; q++)// 반복문에 쓰일 숫자는 직관적으로 생각하자
+			printf(" ");
+		printf("^");
+		for (int o=0; o < 4; o++)
+		{
+			for (int q = i; q > j; q--)//j값사용
+				printf("-");
+		}
+		printf("+\n");
+	}
+}
+int check(int *a, int count)
+{
+	for (int i = 0; i < count-1; i++)
+	{
+		if (a[i] > a[i + 1])
+		{
+			printf("a[i]: %d, a[i+1]: %d\n", a[i], a[i + 1]);
+			return -1;
+		}
+	}
+	return 1;
+}

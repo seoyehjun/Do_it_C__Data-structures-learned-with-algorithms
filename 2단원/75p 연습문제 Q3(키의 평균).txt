@@ -1,0 +1,52 @@
+#include<stdio.h>
+
+double sumof(double *a, int count);
+double ave(double *a, int count);
+
+int main(void)
+{
+	double height[100];
+	double tot,av;
+	int count;
+
+	printf("사람수를 입력하세요:");
+	scanf("%d", &count);
+
+	for (int i = 0; i < count; i++)
+	{
+		printf("%d번째 사람의 키를 입력하세요", i + 1);
+		scanf("%lf", &height[i]);
+	}
+
+	tot = sumof(height, count);
+	av = ave(height, count);
+
+	printf("키들의 합은%.1lf입니다.", tot);
+	printf("키들의 평균은%.1lf입니다.", av);
+
+	return 0;
+
+}
+
+double sumof(double *a, int count)
+{
+	double total = 0;
+	int i;
+
+	for (i = 0; i < count; i++)
+	{
+		total += a[i];
+	}
+
+	return total;
+}
+
+double ave(double *a, int count)
+{
+	
+	double tot = sumof(a, count);
+	double average = tot / count;
+	
+	return average;
+
+}

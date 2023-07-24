@@ -1,0 +1,41 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+
+int main(void)
+{
+	int num;
+
+	printf("자릿수를 판별하고싶은 수를 입력하세요 :");
+	scanf("%d", &num);
+
+	printf("입력한 수의 자릿수: %d",discern(num));
+
+	return 0;
+}
+
+int discern(int num)
+{
+	int i, temp = 0;
+	if (num > 0)// 양수일 경우
+	{
+		for (i = 1; i < 100000000; i *= 10)
+		{
+			if (num - i >= 0)temp++;//i=1,10,100...이 순차적으로 대입되면서 해당숫자를 뺏을때 음수가 되지안으면 자릿수(temp) 늘려줌
+			else return temp;
+		}
+	}
+	else if (num < 0)// 음수일 경우
+	{
+		for (i = 1; i < 100000000; i *= 10)
+		{
+			if (num + i <= 0)temp++;//i=1,10,100...이 순차적으로 대입되면서 해당숫자를 더했을때 양수가 되지안으면 자릿수(temp) 늘려줌
+			else return temp;
+		}
+	}
+	else// 0일경우
+	{
+		printf("해당숫자는 0이고 1자리입니다.");
+		exit(0);
+	}
+}

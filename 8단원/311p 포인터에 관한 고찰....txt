@@ -1,0 +1,55 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#define swap(type,s1,s2) do{type t=s1;s1=s2;s2=t;}while(0)
+
+void swap_str(char *x, char *y);
+int main(void)
+{
+	char *s1 = calloc(5, sizeof(char));// 공간을 할당하니
+	char *s2 = calloc(5, sizeof(char));
+	strcpy(s1, "ABCD");
+	strcpy(s2, "EFGH");
+	
+	printf("포인터 s1은 \"%s\"를 가리킵니다.\n", s1);
+	printf("포인터 s2은 \"%s\"를 가리킵니다.\n", s2);
+	s1[1] = s2[1];                       // 대입연산이 되내???? (왜?)
+
+
+	puts("\n포인터 s1과 s2의 값을 서로 교환했습니다.\n");
+
+	printf("포인터 s1은 \"%s\"를 가리킵니다.\n", s1);
+	printf("포인터 s2는 \"%s\"를 가리킵니다.\n", s2);
+
+	return 0;
+}
+/*
+void swap_str(char *x, char *y)
+{
+	int i = 0;
+	int q = 0;
+	char temp;
+
+	while (*x &&  *y)
+	{
+		printf("%d time", i + 1);
+		temp = x[i];
+		printf("temp : %c  x[i]: %c  y[i] : %c", temp, x[0], y[0]);
+		printf("x : %d --> x + 1 : %d", x, x + 1);
+		x[i] = y[i];
+		y[i] = temp;
+		i++;
+	}
+	while (x[i])
+	{
+		y[i] = x[i];
+		i++;
+	}
+	while (y[i])
+	{
+		x[i] = y[i];
+		i++;
+	}
+	x[i] = '\n';
+	y[i] = '\n';
+}*/

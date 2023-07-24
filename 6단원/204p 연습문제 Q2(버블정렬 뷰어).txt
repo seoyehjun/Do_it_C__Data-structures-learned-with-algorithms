@@ -1,0 +1,91 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define swap(type,x,y) do{type t=x;x=y;y=t;}while(0)
+void print(int *a, int n);
+
+void bubble(int *a, int n)
+{
+	for (int i = 0; i < n - 1; i++)// 패스( 패스 횟수는 안변하쥬? )
+	{
+		printf("\n패스%d\n",i);
+		for (int j = 0; j < n - 1 - i ; j++)//2차원i증가시 그숫자부터 버블(제일큰수가 1회버블시 잴오른쪽으로가기에 버블횟수 줄어든다
+		{  										
+			                                    //여기서부터
+			printf("§  ");					    //
+			// 여기 프린트문                    // 
+			for (int q = 0; q <= j; q++)        //
+			{                                   //
+				printf("%d  ", a[q]);           //
+			}   printf("\b");                   //
+			                              		//
+			if (a[j] > a[j + 1])                //
+			{                                   //
+				printf("+");                    //
+			}                                   //
+			else                                //
+			{									//
+				printf("-");				    //
+			} 									//
+									            //                     
+			for (int q = j+1; q < n; q++)       //
+			{									//
+				printf("%d  ", a[q]);			//
+			}                                   //
+			if (a[j] > a[j + 1])                //
+			{                                   //
+				swap(int, a[j], a[j + 1]);      //
+			}   								//
+			printf("  §");                     //
+			printf("\n");						//
+		}                                       // 여기까지가 버블1회(2수를 교환) 입니다
+	}
+}
+int main(void)
+{
+	int i, nx;
+	int *x;
+
+	puts("버블 정렬");
+	printf("요소 개수 :");
+	scanf("%d", &nx);
+	x = calloc(nx, sizeof(int));
+
+	for (i = 0; i < nx; i++)
+	{
+		printf("x[%d] :",i);
+		scanf("%d", &x[i]);
+	}
+
+	bubble(x, nx);
+	if (array_check(x,nx) == 0)
+	{
+		printf("\n\n＃ 배열이 정렬되지 않았습니다.\n\n");
+	}
+	else
+	{
+		printf("\n\n＃ 배열이 오름차순으로 정렬되었습니다.\n\n");
+	}
+
+	return 0;
+}
+
+void print(int *a, int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		printf("%3d", a[i]);
+	}
+	putchar('\n');
+}
+
+int array_check(int *a,int count)// 오름차순으로 정렬이 되있으면1 아니면 0반환
+{
+	for (int i = 0; i < count - 1; i++)
+	{
+		if (a[i] > a[i + 1])
+		{
+			return 0;
+		}
+	}
+		return 1;
+}

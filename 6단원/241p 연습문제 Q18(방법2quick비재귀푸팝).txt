@@ -1,0 +1,144 @@
+/* Q17버전 입니다. */
+
+#include<stdio.h>
+#include<stdlib.h>
+#include"IntStack2.h"
+#define swap(type, x, y) do{type t=x;x=y;y=t;}while(0)
+
+int med3(int a, int b, int c);
+void insertion(int *a, int n);
+void quick_sort(int *a, int count);
+void quick(int *a, int left, int right);
+void arr3(int *a, int index1, int index2, int index3);
+
+int med3(int a, int b, int c)
+{
+	if (a >= b)
+		if (b >= c)
+			return b;
+		else if (a <= c)
+			return a;
+		else
+			return c;
+	else if (a > c)
+		return a;
+	else if (b > c)
+		return c;
+	else
+		return b;
+}
+void arr3(int *a, int index1, int index2, int index3)
+{
+	if (a[index1] > a[index2]) { swap(int, a[index1], a[index2]); }
+	if (a[index2] > a[index3]) { swap(int, a[index2], a[index3]); }
+	if (a[index1] > a[index2]) { swap(int, a[index1], a[index2]); }
+	return;
+}
+void quick(int *a, int left, int right)
+{
+	
+	IntStack lstack, rstack;
+
+	Initialize(&lstack, right - left + 1);
+	Initialize(&rstack, right - left + 1);
+
+	Push(&lstack, left);
+	Push(&rstack, right);
+	
+	while (!IsEmpty(&lstack))
+	{
+		
+		int pl = (Pop(&lstack,&left),left); //left right값도 재설정 해주어야 한다(Pop한 값으로)
+		int pr = (Pop(&rstack, &right), right);
+		int mid_index = (left + right) / 2;//처음 중간 가운데 값중 중앙값이 피벗값
+
+		if (right - left < 9)
+		{
+			insertion(&a[left], right - left + 1);
+		}
+		else
+		{
+			arr3(a, left, mid_index, right);// 3요소 정렬
+			swap(int, a[mid_index], a[right - 1]);// 중앙값이랑 마지막에서 두번째값 교체
+			pl ++;  // 재설정된 left값
+			pr -= 2;// 재설정된 right값
+			do
+			{
+				while (a[pl] < a[right - 1])pl++;//a[right-1]값은 피벗값
+				while (a[pr] > a[right - 1])pr--;
+				
+				if (pr >= pl)
+				{
+					swap(int, a[pl], a[pr]);
+					pr--;
+					pl++;
+				}
+			} while (pl <= pr);
+
+			if (right - pl > pr - left)// 왼쪽을 큰상태로
+			{
+				swap(int, pr, right);
+				swap(int, pl, left);
+			}
+
+			if (left < pr)// 큰거 먼저 푸시
+			{
+				Push(&lstack, left);
+				Push(&rstack, pr);
+			}
+			if (right > pl)//작은거 나중에 푸시( 먼저 처리하겟다는뜻 )
+			{
+				Push(&lstack, pl);
+				Push(&rstack, right);
+			}
+		}
+	}
+	Terminate(&lstack);
+	Terminate(&rstack);
+	
+}
+void insertion(int *a, int n)
+{
+	int i, j;
+	for (i = 1; i < n; i++)
+	{
+		for (j = i; j > 0; j--)
+		{
+			if (a[j] < a[j - 1])
+			{
+				swap(int, a[j], a[j - 1]);
+			}
+		}
+	}
+}
+void quick_sort(int *a, int count)
+{
+	quick(a, 0, count - 1);
+	
+	return;
+}
+int main(void)
+{
+	int i, nx;
+	int *x;
+	
+	puts("쿽 정렬");
+	printf("요소 개수: ");
+	scanf("%d", &nx);
+	x = calloc(nx, sizeof(int));
+
+	for (i = 0; i < nx; i++)
+	{
+		printf("x[%d] : ", i);
+		scanf("%d", &x[i]);
+	}
+
+	quick_sort(x, nx);
+	puts("오름차순으로 정렬했습니다.");
+
+	for (i = 0; i < nx; i++)
+		printf("x[%d] = %d\n", i, x[i]);
+	free(x);
+
+	return 0;
+}

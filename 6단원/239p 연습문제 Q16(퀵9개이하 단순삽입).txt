@@ -1,0 +1,176 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include"IntStack2.h"
+#define swap(type, x, y) do{type t=x;x=y;y=t;}while(0)
+
+void selection(int *a, int n);
+void insertion(int *a, int n);
+void quick_sort(int *a, int count);
+void quick(int *a, int left, int right);
+
+void quick(int *a, int left, int right)
+{
+	IntStack lstack, rstack;
+
+	Initialize(&lstack, right - left + 1);// 공간 생성
+	Initialize(&rstack, right - left + 1);// 공간 생성
+
+	Push(&lstack, left);// 재귀호출시 오른쪽영역 왼쪽영역의 lstack rstack 각각 다시 Push
+	Push(&rstack, right);
+	int count_change = 0;
+	while (!IsEmpty(&lstack))// 범위를 가른뒤 다시 시행
+	{
+		count_change++;
+		printf("count_change: %d\n", count_change);
+		Pop(&lstack, &left);
+		Pop(&rstack, &right);
+
+		if (right - left + 1 <= 9)
+		{
+			insertion(a + left, right - left + 1);
+		}
+		else
+		{
+			int pl = left;
+			int pr = right;
+			int pivot = a[(pl + pr) / 2];
+
+			printf("\n§  a[%d] ~ a[%d] : {", left, right);
+			for (int i = 0; i < right - left + 1; i++)
+			{
+				printf("%3d", a[left + i]);
+			}printf(" }\n");
+
+			int swap_count = 0;
+			do
+			{
+				swap_count++;
+				while (a[pl] < pivot) { pl++; }; // pivot보다 작다면 그냥넘어감
+				while (a[pr] > pivot) { pr--; };
+				if (pr >= pl)// pl이 크면(엇갈리면)교환중단
+				{
+					swap(int, a[pl], a[pr]);
+					pl++;
+					pr--;
+				}
+
+			} while (pr >= pl);// 이건 교체 버블( 한번시행시 1회 교환 )
+
+
+
+			/*요소의 개수(간격)이 더적은 배열 먼저 쪼개기(나중에 넣기)*/
+
+			int cleft = 0, cright = 0;
+			if (pr - left >= right - pl)// 왼쪽이 더크다면// 두영역의 크기가 모두 같다면??
+			{
+				if (pr > left) /* 왼쪽먼저~ *///pr과 left의 값이 같아지면 종료
+				{
+					Push(&lstack, left);
+					Push(&rstack, pr);
+					cleft++;
+					printf("cleft1\n");
+				}
+			}
+			else// 오른쪽이 더 크다면
+			{
+				if (pl < right)/* 오른쪽먼저~ */
+				{
+					Push(&lstack, pl);
+					Push(&rstack, right);
+					cright++;
+					printf("cright1\n");
+				}
+			}
+
+			if (cleft > cright)// 왼쪽이 먼저 시행됫을때(왼쪽의 간격이 더 작을때)
+			{
+				if (pl < right)/* 오른쪽~ */
+				{
+					Push(&lstack, pl);
+					Push(&rstack, right);
+					cright++;
+					printf("cright2");
+				}
+			}
+			else if (cleft > cright)
+			{
+				if (pr > left)/* 왼쪽~ */
+				{
+					Push(&lstack, left);
+					Push(&rstack, pr);
+					cleft++;
+					printf("cleft2");
+				}
+			}
+		}
+
+		
+	}
+	Terminate(&lstack);
+	Terminate(&rstack);
+
+	return;
+}
+void selection(int *a, int n)
+{
+	int i, j;
+	for (i = 0; i < n; i++)
+	{
+		int min = a[i];
+		for (j = i; j < n; j++)
+		{
+			if (a[j + 1] < a[j])
+			{
+				swap(int, a[j + 1], a[j]);
+			}
+		}
+	}
+}
+void insertion(int *a, int n)
+{
+	int i, j;
+	printf("%d",n);
+	for (i = 1; i < n; i++)
+	{
+		printf("%d", i);
+		for (j = i; j > 0; j--)
+		{
+			if (a[j] < a[j - 1])
+			{
+				swap(int, a[j], a[j - 1]);
+			}
+		}
+	}
+}
+void quick_sort(int *a, int count)
+{
+	quick(a, 0, count - 1);
+	
+	return;
+}
+int main(void)
+{
+	int i, nx;
+	int *x;
+	
+	puts("쿽 정렬");
+	printf("요소 개수: ");
+	scanf("%d", &nx);
+	x = calloc(nx, sizeof(int));
+
+	for (i = 0; i < nx; i++)
+	{
+		printf("x[%d] : ", i);
+		scanf("%d", &x[i]);
+	}
+
+	quick_sort(x, nx);
+	puts("오름차순으로 정렬했습니다.");
+
+	for (i = 0; i < nx; i++)
+		printf("x[%d] = %d\n", i, x[i]);
+	free(x);
+
+	return 0;
+}
+

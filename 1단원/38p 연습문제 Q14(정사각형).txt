@@ -1,0 +1,22 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+
+int main(void)
+{
+	int i, j, len;
+
+	printf("정사각형 한변의 길이를 입력하세요: ");
+	scanf("%d", &len);
+
+	for (i = 0; i < len; i++)
+	{
+		for (j = 0; j < len; j++)
+		{
+			printf("□");
+		}
+		printf("\n");
+	}
+
+        return 0;
+}

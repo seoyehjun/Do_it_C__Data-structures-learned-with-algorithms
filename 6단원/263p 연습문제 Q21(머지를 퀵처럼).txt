@@ -1,0 +1,99 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+int int_cmp(const int *a, const int *b);
+static void __mergesort(void *a, int left, int right, size_t size, int(*)(const void *, const void *));
+int mergesort(void *a, size_t nmemb, size_t size, int(*)(const void *, const void *));
+
+static char *buffer; /*작업용 배열*/
+
+static void __mergesort(char *a, int left, int right,size_t size, int(*compar)(const void *, const void *))
+{
+	printf("전체 배열\n");
+	for (int z = 0; z < 6; z++)
+	{
+		printf("%3d", a[z*size]);
+	}
+	printf("\n");
+	
+	for (int q = left; q < right + 1; q++)
+	{
+		printf("%3d", a[q*size]);
+	}
+	printf("\n");
+
+	
+	if (left < right)
+	{
+		size_t center = (left + right) / 2;
+		size_t p = 0;   // 버퍼에 넣기 전용
+		size_t i;       // 요소의 왼쪽-> 나중에는 오른쪽 비교에사용
+		size_t j = 0;   // 버퍼 비교 전용
+		size_t k = left;// 병합시 사용
+       
+		printf("left side\n");
+		__mergesort(a, left, center, size, compar); 
+		printf("right side\n");
+		__mergesort(a, center + 1, right, size, compar); 
+
+		for (i = left; i <= center; i++)
+		{
+			memcpy(&buffer[p++ *size] , &a[i * size],size);// 얼마나 읽을지는 size가 판단해
+		}printf("left : %d,,i : %d,, center : %d\n",left, i, center);
+		printf("before-->j : %d --p : %d\n", j, p);
+		while (i <= right && j <  p)// 왼쪽 오른쪽 둘중 하나가 요소를 다 소비할때까지
+		{
+			memcpy(&a[k++ * size],/**/ compar((const void *)&buffer[j*size], (const void *)&a[i*size]) <= 0 /**/ ? &buffer[j++ * size] : &a[i++ * size], size);// 앞에수가 작거나 같으면
+		}
+		printf("after-->j : %d --p : %d\n", j, p);
+		while (j < p)
+		{
+			memcpy(&a[k++ * size], &buffer[j++ * size], size);
+		}
+	}
+}
+
+int mergesort(void *a, size_t nmemb, size_t size, int(*compar)(const void *e, const void *z))
+{
+	if ((buffer = calloc(nmemb, size)) == NULL) return -1;// void버퍼에 요소 크기를 고려하여 갯수만큼 공간할당
+
+	__mergesort(a, 0, nmemb - 1, size, compar);
+
+	free(buffer);
+
+	return 0;
+}
+int int_cmp(const int *a, const int *b)
+{
+	return *a < *b ? -1 : *a > *b ? 1 : 0;
+}
+
+int main(void)
+{
+	int i, nx;
+	int *x;
+	puts("병합 정렬");
+	printf("요소 개수: ");
+	scanf("%d", &nx);
+	x = calloc(nx, sizeof(int));
+
+	for (i = 0; i < nx; i++)
+	{
+		printf("x[%d] : ", i);
+		scanf("%d", &x[i]);
+	}
+
+	mergesort(x, nx,sizeof(int),(int(*)(const void *,const void *))int_cmp);
+
+	puts("오름차순으로 정렬했습니다.");
+
+	for (i = 0;i < nx; i++)
+	{
+		printf("x[%d]= %d\n", i, x[i]);
+	}
+	
+	free(x);
+	
+	return 0;
+}

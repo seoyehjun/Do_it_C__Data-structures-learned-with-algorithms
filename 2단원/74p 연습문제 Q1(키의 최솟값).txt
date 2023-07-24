@@ -1,0 +1,55 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+
+double minof(double *a, int count);
+double swap(double *x, double *y);
+int main(void)
+{
+	double height[100];
+	int count;
+	double mini;//잴작은사람 저장
+
+	printf("사람수를 입력하세요 :");
+	scanf("%d", &count);
+
+	
+	for (int i = 0; i < count; i++)
+	{
+		printf("%d번째 사람의 키를 입력하세요 :",i+1);
+		scanf("%lf", &height[i]);
+	}
+
+	mini = minof(height, count);
+
+	printf("제일 키가 작은사람의 키는: %.1lf", mini);
+
+	return 0;
+}
+
+double minof(double *a, int count)// 사람 배열, 사람수
+{
+	int i;
+	double min = a[0];// 최솟값을 저장할 변수
+
+	for (i = 0; i < count; i++)
+	{
+		if (min> a[i])
+		{
+			swap(&min, &a[i]);
+		}
+	}
+	return min;
+
+}
+
+double swap(double *x, double *y)
+{
+	double temp;
+
+	temp = *x; // 애내가 가리키고 있는 주소값 바꿔바야 이함수 끝나면 의미없죠?
+	*x = *y;
+	*y = temp;
+
+	return;
+}

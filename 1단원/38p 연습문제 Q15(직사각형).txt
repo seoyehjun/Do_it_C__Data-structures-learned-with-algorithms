@@ -1,0 +1,24 @@
+include<stdio.h>
+#include<stdlib.h>
+
+
+int main(void)
+{
+	int i, j, len1, len2;
+
+	printf("가로의 길이를 입력하세요:");
+	scanf("%d", &len1);
+	printf("세로의 길이를 입력하세요:");
+	scanf("%d", &len2);
+
+	for (i = 0; i < len2; i++)
+	{
+		for (j = 0; j < len1; j++)
+		{
+			printf("□");
+		}
+		printf("\n");
+	}
+
+	return 0;
+}

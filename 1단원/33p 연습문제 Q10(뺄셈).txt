@@ -1,0 +1,30 @@
+#include<stdio.h>
+
+
+int main(void)
+{
+	int a, b=0;
+
+	printf("a값과 b값을 입력하면 b-a값을 출력합니다.\n ");
+	printf("a값을 입력하세요 :");
+	scanf("%d", &a);
+	
+	
+	while (1)
+	{
+		printf("b값을 입력하세요 :");
+		scanf("%d", &b);
+		if (b < a) //while  b입력반복문 계속진행
+		{
+			printf("b값이 a값보다 작습니다 다시입력하세요");
+		}
+		else // while b입력반복문 탈출b가a보다 같거나, 큰경우
+		{
+			break;
+		}
+	}
+
+	printf("b-a값은 : %d", b - a);
+	
+	return 0;
+}

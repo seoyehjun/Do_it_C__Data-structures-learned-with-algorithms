@@ -1,0 +1,36 @@
+#include<stdio.h>
+
+int main(void)
+{
+	int num1, num2, result;
+
+	printf("최대공약수를구할 수를 입력하세요\n수1 : ");
+	scanf("%d",&num1);
+	printf("수2 :");
+	scanf("%d", &num2);
+	
+	result = gcd(num1, num2);
+
+	printf("최대공약수 : %d", result);
+
+	return 0;
+}
+
+int gcd(int a, int b)
+{
+	int temp;
+
+	do
+	{
+		// 이전결과를 가지고 판단
+		if (b == 0)// 이전에 나머지가 0이라면
+		{
+			return a;// 이전에 나누던수
+		}
+
+		temp = a % b;
+		a = b;    //a에 나누던수 넣기
+		b = temp; //b에 나머지 넣기
+
+	} while (1);
+}

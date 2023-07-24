@@ -1,0 +1,178 @@
+#include<stdio.h>
+
+typedef struct day
+{
+	int year;
+	int month;
+	int day;
+
+}Date;
+
+Date Dateof(int y, int m, int d);
+Date After(Date x, int n);
+Date Before(Date x, int n);
+int Total_Day(Date x);
+int isleep(Date x);
+
+int main(void)
+{
+	int y, m, d;
+	int after_num, before_num;
+	Date after_day, before_day;
+
+	printf("년도를 입력하세요:");
+	scanf("%d", &y);
+	printf("달을 입력하세요:");
+	scanf("%d", &m);
+	printf("일을 입력하세요:");
+	scanf("%d", &d);
+
+	Date x = Dateof(y, m, d);
+	
+	printf("몇일후 :");
+	scanf("%d", &after_num);
+	printf("몇일전 :");
+	scanf("%d", &before_num);
+
+	after_day = After(x, after_num); 
+	before_day = Before(x, before_num);
+
+	printf("현재 %d.%d.%d\n", x.year, x.month, x.day);
+	printf("%d일후 :%d.%d.%d\n",after_num, after_day.year, after_day.month, after_day.day);
+	printf("%d일전: %d.%d.%d\n",before_num, before_day.year, before_day.month, before_day.day);
+	
+	return 0;
+}
+
+Date Dateof(int y, int m, int d)
+{
+	Date x;
+
+	x.year = y;
+	x.month = m;
+	x.day = d;
+
+	return x;
+}
+
+Date After(Date x, int n)
+{
+	int mdays[][12] = { {31,28,31,30,31,30,31,31,30,31,30,31},{31,29,31,30,31,30,31,31,30,31,30,31} };
+	Date afterdate;
+	int tot = Total_Day(x) + n;
+	int countm=1,countm2=1, i=0, plus_year=0;
+
+	afterdate.year = x.year;
+	while (1)
+	{
+		if (tot > mdays[isleep(afterdate)][i])
+		{		
+			tot -= mdays[isleep(afterdate)][i];
+		}
+		else
+		{
+			break;
+		}
+
+		countm++;
+
+		if(countm>=13)
+		{			
+			i = 0;	
+			countm = 1;
+			afterdate.year++;
+		}
+		else 
+		{
+			i++;
+		}
+	}
+
+
+	afterdate.month = countm;
+	afterdate.day = tot;
+
+	return afterdate;
+}
+
+Date Before(Date x, int n)
+{
+	int mdays[][12] = { {31,28,31,30,31,30,31,31,30,31,30,31},{31,29,31,30,31,30,31,31,30,31,30,31} };// 평년 윤년
+	int year2[2] = { 365,366 };//평년 윤년
+	Date beforedate;
+	int countm = 1, i = 0, tot_day;
+
+	beforedate.year = x.year;
+	
+	if (n >= Total_Day(x))
+	{
+		beforedate.year--;
+
+		n -= Total_Day(x);
+
+		while (n >= year2[isleep(beforedate)])
+		{
+			n -= year2[isleep(beforedate)];
+			beforedate.year--;
+		}
+
+		tot_day = year2[isleep(beforedate)] - n; //해당년도를 계산한후 그년도의 총일수
+
+		for (int i = 0; i < 12; i++)
+		{
+			if (tot_day > mdays[isleep(beforedate)][i])
+			{
+				tot_day -= mdays[isleep(beforedate)][i];
+				countm++;
+			}
+
+		}
+		printf("countm: %d", countm);
+		beforedate.month = countm;
+		beforedate.day = tot_day;//달의 일수를 빼고 남은 일
+	}
+	else
+	{
+		tot_day = Total_Day(x) - n;
+
+		for (int i = 0; i < 12; i++)
+		{
+			
+			if (tot_day > mdays[isleep(beforedate)][i])
+			{
+				printf("%d - %d: %d    i:%d", tot_day, mdays[isleep(beforedate)][i], tot_day-mdays[isleep(beforedate)][i],i);
+				tot_day -= mdays[isleep(beforedate)][i];
+				countm++;
+				printf("  =%d\n", countm);
+			}
+			else
+			{
+				break;
+			}
+			
+			beforedate.month = countm;
+		}
+		
+		beforedate.day = tot_day;
+	}
+	
+	return beforedate;
+	
+}
+
+int Total_Day(Date x)
+{
+	int mdays[][12] = { {31,28,31,30,31,30,31,31,30,31,30,31},{31,29,31,30,31,30,31,31,30,31,30,31} };//mdays[0]은 평년 mdays[1]은 윤년 (true 값이오면 윤년이오게 설계)
+	int tot = x.day;
+
+	for (int i = 1; i < x.month; i++)
+	{
+		tot += mdays[isleep(x)][i - 1];
+	}
+	return tot;
+}
+
+int isleep(Date x)
+{
+	return (x.year % 4 == 0) && (x.year % 100 != 0) || (x.year % 400 == 0);
+}

@@ -1,0 +1,76 @@
+#include<stdio.h>
+
+void swap(char *a, char *b);
+void reverse(char *a, int count);
+int card_convr(int x, int n, char *d);
+
+int main(void)
+{
+	int num, n, count;//num을 n진수로 바꾼뒤 자릿수 count에 저장
+	char after_num[40];// 바꾼 수를 저장할곳(문자형인char형에 저장한다)
+	
+	printf("몇진수로의 변환을 원하는가?: ");
+	scanf("%d", &n);
+	printf("%d진수로 변환시킬 수를 입력하세요:",n);
+	scanf("%d", &num);
+
+	count = card_convr(num, n, after_num);
+
+	reverse(after_num, count);
+	
+	printf("-----▷");
+	for (int i = 0; i < count; i++)
+	{
+		putchar(after_num[i]);
+	}
+	printf("◁-----");
+	
+	return 0;
+}
+
+int card_convr(int x, int n, char *d)//x값을 n진수로 변환하여 배열d에 '위에'자리부터 저장
+{
+	char dchar[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	int digits = 0;
+	int count = 0;
+
+	if (x == 0)
+	{
+		d[digits] = dchar[0];
+	}
+	else
+	{
+		do
+		{
+			d[digits++] = dchar[x%n];// x가 1일경우 x값을 변경하지 않은상태에서 나머지를 인덱스에 넣고
+			x /= n;// 이줄에서 나누어 주면 몫이 0이 되어 반복문이 종료된다
+			count++;// 자릿수 저장
+			
+		}
+		while (x);
+	}
+
+	return count;
+}
+
+void reverse(char *a, int count)
+{
+	int i;
+	
+	for (i = 0; i < count / 2; i++)
+	{
+		swap(&a[i], &a[count - i - 1]);
+	}
+
+	return;
+}
+
+void swap(char *a, char *b)
+{
+	char temp;
+
+	temp = *a;
+	*a = *b;
+	*b = temp;
+	
+}

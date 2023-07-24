@@ -1,0 +1,78 @@
+#include<stdio.h>
+
+int main(void)
+{
+	int i, nx, ky, key_count;
+	int *x;
+	int key_index[100];
+
+	puts("선형 검색");
+	printf("요소 개수:");
+	scanf("%d", &nx);
+	x = calloc(nx, sizeof(int));
+
+	for (i = 0; i < nx; i++)
+	{
+		printf("x[%d] : ", i);
+		scanf("%d", &x[i]);
+	}
+
+	printf("검색값 :");
+	scanf("%d", &ky);// 찾고자 하는 키 입력
+	key_count = search(x, nx, ky, key_index);//키와 일치하는 인덱스값을 key_index에 저장
+
+	/*출력부*/
+	printf("%d이 들어잇는 곳\n", ky);
+	for (int i = 0; i < key_count; i++)
+	{
+		printf("§   x[%d]   §\n", key_index[i]);
+	}
+	if (key_count == 0)
+	{
+		printf("§   %d은 존재하지 않는 값   §", ky);
+	}
+
+	return 0;
+}
+
+int search(int *x, int count, int key, int *key_index)
+{
+	int key_count = 0; 
+	int j = 0;
+
+	printf("index | ");
+	for (int i = 0; i < count; i++)
+	{
+		printf(" [%d]", i);
+	}
+	printf("\n------+-----------------------------\n");
+
+	for (int i = 0; i < count; i++)
+	{
+		printf("      |");
+		for (int j = 0; j < i; j++)
+		{
+			printf("    ");	
+		}
+		printf("  ↓");
+			
+		printf("\n");
+		printf("x[%d]  |", i);
+
+		for (int q = 0; q < count; q++)
+		{
+			printf("%4d", x[q]);
+		}
+		printf("\n");
+		
+
+		if (x[i] == key)
+		{
+			key_index[j] = i;
+			key_count++;
+			j++;
+		}
+	}
+
+	return key_count;
+}

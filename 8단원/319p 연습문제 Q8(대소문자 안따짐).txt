@@ -1,0 +1,58 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#define swap(type,s1,s2) do{type t=s1;s1=s2;s2=t;}while(0)
+
+int str_ncmp(const char *s1, const char *s2, size_t n);
+int main(void)
+{
+	char arr1[100];
+	char arr2[100];
+	int count;
+
+	printf("첫번째 문자열을 입력하세요 :");
+	scanf("%s", arr1);
+
+	printf("두번째 문자열을 입력하세요 :");
+	scanf("%s", arr2);
+
+	printf("몇번째 문자열까지 비교할것인가?");
+	scanf("%d", &count);
+
+	if (str_ncmp(arr1, arr2, count) == 0)
+	{
+		printf("두 문자열은 같습니다.");
+	}
+	if (str_ncmp(arr1, arr2, count) > 0)
+	{
+		printf("첫번째 문자열이 큼(사전상 뒤에위치)");
+	}
+	if (str_ncmp(arr1, arr2, count) < 0)
+	{
+		printf("뒤번째 문자열이 큼(사전상 뒤에위치)");
+	}
+	
+
+	return 0;
+}
+
+int str_ncmp(const char *s1, const char *s2, size_t n)
+{
+	int i = 0;
+	int small_big1 = 0;
+	int small_big2 = 0;
+	
+	while (*s1 && *s2 && i <= n-1)
+	{
+		if (s1[i] >= 97)small_big1 = 32;
+		if (s2[i] >= 97)small_big2 = 32;
+		if (s1[i] - small_big1 > s2[i] - small_big2 || s1[i] - small_big1 < s2[i] - small_big2)return s1[i] - s2[i];
+		
+		i++;
+
+		small_big1 = 0;
+		small_big2 = 0;
+	}
+
+	return 0;
+}

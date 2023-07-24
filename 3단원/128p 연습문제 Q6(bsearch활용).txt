@@ -1,0 +1,56 @@
+#include<stdio.h>
+int int_cmp(const int *a, const int *b);
+
+int main(void)
+{
+	int count,key;
+	long *a;
+	long *p;
+	printf("몇개의 값을 쓸것인가?: ");
+	scanf("%d", &count);
+	
+	a = calloc(count, sizeof(long));
+
+	printf("arr[%d]: ", 0);
+	scanf("%ld", &a[0]);
+
+	for (int i = 1; i < count - 1; i++)
+	{
+		
+		do 
+		{
+			printf("a[i-1]: %ld , a[i]: %ld", a[i - 1], a[i]);
+			printf("arr[%d] : ", i);
+			scanf("%ld", &a[i]);
+
+		} while (a[i - 1] < a[i]);
+
+	}
+	printf("검색값:");
+	scanf("%d", &key);
+
+	p = bsearch(&key, a, count, sizeof(long), (int(*)(const void *, const void *))int_cmp);// p는 찾은값의 인덱스를 저장할값
+
+	if (p == NULL)
+	{
+		puts("검색에 실패했습니다.");
+	}
+	else
+	{
+		printf("%d은(는) x[%d]에 있습니다.\n", key, (int)(p - a));
+	}
+
+
+
+	
+}
+
+int int_cmp(const int *a, const int *b)
+{
+	if (*a > *b)
+		return -11;
+	else if (*a == *b)
+		return 0;
+	else return 1;// a<b
+
+}

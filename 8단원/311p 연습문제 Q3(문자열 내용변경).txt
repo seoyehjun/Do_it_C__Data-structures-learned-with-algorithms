@@ -1,0 +1,50 @@
+#include<stdio.h>
+
+#define swap(type,s1,s2) do{type t=s1;s1=s2;s2=t;}while(0)
+
+void swap_str(char *x, char *y);
+int main(void)
+{
+	char *s1 = "ABCD";
+	char *s2 = "EFGH";
+
+	printf("포인터 s1은 \"%s\"를 가리킵니다.\n", s1);
+	printf("포인터 s2은 \"%s\"를 가리킵니다.\n", s2);
+
+	swap_str(s1, s2);// 이렇게 보내면 포인터의 주소 보냄
+
+	puts("\n포인터 s1과 s2의 값을 서로 교환했습니다.\n");
+
+	printf("포인터 s1은 \"%s\"를 가리킵니다.\n", s1);
+	printf("포인터 s2는 \"%s\"를 가리킵니다.\n", s2);
+
+	return 0;
+}
+
+void swap_str(char *x, char *y)
+{
+	int i = 0;
+	int q = 0;
+	char temp;
+
+	while (*x &&  *y)
+	{
+		printf("%d time", i + 1);
+		temp = x[i];
+		x[i] = y[i];
+		y[i] = temp;
+		i++;
+	}
+	while (x[i])
+	{
+		y[i] = x[i];
+		i++;
+	}
+	while (y[i])
+	{
+		x[i] = y[i];
+		i++;
+	}
+	x[i] = '\n';
+	y[i] = '\n';
+}

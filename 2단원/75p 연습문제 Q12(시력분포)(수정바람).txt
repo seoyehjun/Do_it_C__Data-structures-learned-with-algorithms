@@ -1,0 +1,65 @@
+#include<stdio.h>
+#define VMAX 21
+
+typedef struct
+{
+	char name[20];
+	double height;
+	double vision;
+} Phys;
+
+void dist_vision(const Phys *dat, int n, int *dist);
+
+int main(void)
+{
+	Phys student[10];
+	int dist[VMAX];//2.1까지 저장
+
+	for (int i = 0; i < 4; i++)
+	{
+		
+		printf("%d번째 학생의 시력을 입력하세요 :", i + 1);
+		scanf("%lf", &student[i].vision);
+	}
+
+	dist_vision(student, 4, dist);
+
+	for (int i = 0; i < 21; i++)
+	{
+		printf("§   %.1lf ~  : ", i / 10.0);
+		for (int j = 0; j < dist[i]; j++)
+		{
+			printf("*");
+		}
+		printf("\n");
+	}
+
+	return 0;
+
+
+}
+void dist_vision(const Phys *dat, int n, int *dist)
+{
+	double vis;
+	for (int q = 0; q <21; q++)
+	{
+		dist[q] = 0;
+	}
+
+	for (int i = 0; i <21; i++)
+	{
+		vis = i / 10.0;
+		
+
+		for (int j = 0; j < n; j++)
+		{
+			if (dat[j].vision == vis )// 간접참조 연산자라 . 사용
+			{
+				dist[i]++;
+			}
+		}
+	}
+
+	return;
+
+}
